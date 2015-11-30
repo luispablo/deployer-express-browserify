@@ -12,7 +12,7 @@ Small script to:
 
 ## Installation
 ```
-npm install -g deployer-express-browserify
+npm install -g express-browserify-deployer
 ```
 
 **Pay special attention to:**
