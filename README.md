@@ -1,4 +1,4 @@
--# Express + Browserify deployer
+# Express + Browserify deployer
 
 *(yeah, I know, an awfull name)*
 
