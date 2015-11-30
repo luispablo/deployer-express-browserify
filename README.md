@@ -1,4 +1,4 @@
-# Express + Browserify deployer
+-# Express + Browserify deployer
 
 *(yeah, I know, an awfull name)*
 
@@ -17,7 +17,9 @@ npm install -g deployer-express-browserify
 
 **Pay special attention to:**
 
-> Set env var NODE_PATH to correct location to prevent not finding global modules. > Esto es por nvm, que lo está poniendo en /home/lgallo/.nvm/versions/node/v0.12.7/lib/node_modules
+> If you are working with NVM, you may have some problems with global NPM modules (as I had)  
+> To fix it you should set the environment variable NODE_PATH to the exact location where your node modules are being installed to.  
+> Mine was in /home/&lt;me&gt;/.nvm/versions/node/v0.12.7/lib/node_modules
 
 ## Usage
 Sitting in your app dir, having there the code you want to deploy type:
