@@ -1,0 +1,16 @@
+{
+	"servers": ["svrdesa", "svrnodejs1"],
+	"appDirInServer": "/opt/estadista",
+	"serviceName": "estadista",
+	"entryFile": "./app/browserapp.js",
+	"outputFile": "./public/js/bundle.js",
+	"filesToUpload": [
+		"app/routes", 
+		"app/models",
+		"public", 
+		"config.js", 
+		"config_dev.json", 
+		"package.json", 
+		"server.js"
+	]
+}
