@@ -1,29 +1,33 @@
 {
-  "name": "express-browserify-deployer",
-  "version": "1.0.0",
-  "description": "Simple deployer script for Node JS projects built with expressjs and its browser JS counterpart transpiled with Browserify",
-  "main": "index.js",
-  "keywords": [
-    "script",
-    "command",
-    "deploy"
-  ],
-  "author": "@luispablo",
-  "license": "ISC",
-  "bin": {
-    "deploy": "./index.js"
-  },
-  "dependencies": {
-    "babel-plugin-transform-flow-strip-types": "^6.1.18",
-    "babel-plugin-transform-react-jsx": "^6.2.0",
-    "babelify": "^7.2.0",
-    "browserify": "^12.0.1",
-    "browserify-versionify": "^1.0.6",
-    "chalk": "^1.1.1",
-    "commander": "^2.9.0",
-    "progress": "^1.1.8",
-    "prompt": "^0.2.14",
-    "q": "^1.4.1",
-    "ssh2": "^0.4.12"
-  }
+	"name": "express-browserify-deployer",
+	"version": "1.0.1",
+	"description": "Simple deployer script for Node JS projects built with expressjs and its browser JS counterpart transpiled with Browserify",
+	"main": "index.js",
+	"keywords": [
+		"script",
+		"command",
+		"deploy"
+	],
+	"repository": {
+		"type" : "git",
+		"url" : "https://github.com/luispablo/deployer-express-browserify.git"
+	},
+	"author": "@luispablo",
+	"license": "GPL-2.0",
+	"bin": {
+		"deploy": "./index.js"
+	},
+	"dependencies": {
+		"babel-plugin-transform-flow-strip-types": "^6.1.18",
+		"babel-plugin-transform-react-jsx": "^6.2.0",
+		"babelify": "^7.2.0",
+		"browserify": "^12.0.1",
+		"browserify-versionify": "^1.0.6",
+		"chalk": "^1.1.1",
+		"commander": "^2.9.0",
+		"progress": "^1.1.8",
+		"prompt": "^0.2.14",
+		"q": "^1.4.1",
+		"ssh2": "^0.4.12"
+	}
 }
