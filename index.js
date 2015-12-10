@@ -150,7 +150,7 @@ function askVersion (data) {
 function transpile (data) {
 	var deferred = q.defer();
 	var writeStream = fs.createWriteStream(data.config.outputFile);
-	var babel = babelify.configure({presets: ["react"]});
+	var babel = babelify.configure({presets: ["react", "es2015"]});
 
 	console.log("Building JS client file...");
 	browserify(data.config.entryFile, {debug: false})
