@@ -256,7 +256,7 @@ function getAllFilesInTree (pathItems) {
 			var dirPathItems = fs.readdirSync(pathItem).map(function (dirPathItem) { 
 				return pathItem +"/"+ dirPathItem; 
 			});
-			files = files.concat(getAllFilesInTree(fs, dirPathItems));
+			files = files.concat(getAllFilesInTree(dirPathItems));
 		} else {
 			files.push(pathItem);
 		}
