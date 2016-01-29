@@ -65,12 +65,12 @@ function buildConfigFile (callback) {
 			entryFile: {
 				description: "The entry point file to build the JS bundle",
 				type: "string",
-				required: true
+				required: false
 			},
 			outputFile: {
 				description: "The bundle JS file that will be generated for the browser with browserify",
 				type: "string",
-				required: true
+				required: false
 			},
 			filesToUpload: {
 				description: "Comma-separated list of directories to upload when deploying",
@@ -152,20 +152,26 @@ function askVersion (data) {
 
 function transpile (data) {
 	var deferred = q.defer();
-	var writeStream = fs.createWriteStream(data.config.outputFile);
-	var babel = babelify.configure({presets: ["react", "es2015"]});
 
-	console.log("Building JS client file...");
-	browserify(data.config.entryFile, {debug: false})
-		.transform([babel, versionify])
-		.bundle()
-		.on("error", function (err) { console.log(chalk.red(err)); })
-		.pipe(writeStream);
+	if (data.config.entryFile) {
+		var writeStream = fs.createWriteStream(data.config.outputFile);
+		var babel = babelify.configure({presets: ["react", "es2015"]});
 
-	writeStream.on('finish', function () { 
-		console.log(chalk.bold('Done!'));
-		deferred.resolve(data) 
-	});
+		console.log("Building JS client file...");
+		browserify(data.config.entryFile, {debug: false})
+			.transform([babel, versionify])
+			.bundle()
+			.on("error", function (err) { console.log(chalk.red(err)); })
+			.pipe(writeStream);
+
+		writeStream.on('finish', function () { 
+			console.log(chalk.bold('Done!'));
+			deferred.resolve(data) 
+		});
+	} else {
+		console.log("Nothing to transpile, moving on.");
+		deferred.resolve(data);
+	}
 
 	return deferred.promise;
 }

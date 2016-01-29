@@ -2,7 +2,6 @@
 	"servers": ["svrdesa", "svrnodejs1"],
 	"appDirInServer": "/opt/estadista",
 	"restartCommand": "systemctl restart estadista",
-	"entryFile": "./app/browserapp.js",
 	"outputFile": "./public/js/bundle.js",
 	"filesToUpload": [
 		"app/routes", 
