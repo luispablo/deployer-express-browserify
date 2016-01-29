@@ -23,6 +23,8 @@ try {
 	if (e.code === 'ENOENT') {
 		console.log(chalk.red.bold("No "+ NPM_CONF_FILENAME +" file found. Are you in a NPM project?"));
 		process.exit(1);
+	} else {
+		console.log('#ERROR', e);
 	}
 }
 
@@ -32,6 +34,7 @@ try {
 	doDeploy();
 } catch (e) {
 	if (e.code === 'ENOENT') buildConfigFile(doDeploy);
+	else console.log('#ERROR', e);
 }
 
 function splitAndTrim (value) {
@@ -98,8 +101,8 @@ function doDeploy () {
 		.then(installModulesRestart)
 		.fail(function (error) {
 			console.log(chalk.bold('Error deploying'), chalk.red(error));
-		})
-		.done();
+			process.exit(1);
+		}).done();
 }
 
 function selectTarget (data) {
@@ -235,13 +238,34 @@ function promiseCommand (cmd) {
 function installModulesRestart (data) {
 	var deferred = q.defer();
 	var npmInstallCommand = "cd "+ data.config.appDirInServer +" && npm install --production";
-	var restartServiceCommand = "initctl restart "+ data.config.serviceName;
 
 	promiseCommand(npmInstallCommand)(data)
-		.then(promiseCommand(restartServiceCommand))
+		.then(restart)
 		.then(function (data) {
 			data.sshConnection.end();
+		}).fail(function (error) {
+			deferred.reject(error);
 		});
+
+	return deferred.promise;
+}
+
+function restart (data) {
+	var deferred = q.defer();
+	var serviceName = data.config.serverName;
+	var restartCommand = data.config.restartCommand;
+
+	if (restartCommand) {
+		promiseCommand(restartCommand)(data).then(function (data) {
+			deferred.resolve(data);
+		});
+	} else if (serviceName) {
+		promiseCommand("initctl restart "+ serviceName)(data).then(function (data) {
+			deferred.resolve(data);
+		});
+	} else {
+		deferred.reject("No command available to restart the service");
+	}
 
 	return deferred.promise;
 }
