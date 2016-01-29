@@ -57,8 +57,8 @@ function buildConfigFile (callback) {
 				type: "string",
 				required: true
 			},
-			serviceName: {
-				description: "Service name (in the server) to start/stop/restart the application",
+			restartCommand: {
+				description: "The linux command to restart the deployed app",
 				type: "string",
 				required: true
 			},
