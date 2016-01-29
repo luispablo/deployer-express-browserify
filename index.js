@@ -201,10 +201,28 @@ function uploadFiles (data) {
 					var localFile = process.cwd() +"/"+ file;
 					var remoteFile = data.config.appDirInServer +"/"+ file;
 
-					sftp.fastPut(localFile, remoteFile, function (err) {
-						if (err) console.log(chalk.blue(file), chalk.red(err));
-						bar.tick();
-						if (++uploadedFilesQuantity === filesToUpload.length) deferred.resolve(data);
+					var directory = remoteFile.substring(0, remoteFile.lastIndexOf("/"));
+
+					sftp.stat(directory, function (error) {
+						if (error) {
+							remoteMakeDirTree(sftp, directory, function (error) {
+								if (error) {
+									console.log(chalk.bold(remoteFile), chalk.red(error));
+								} else {
+									sftp.fastPut(localFile, remoteFile, function (err) {
+										if (err) console.log(chalk.blue(file), chalk.red(err));
+										bar.tick();
+										if (++uploadedFilesQuantity === filesToUpload.length) deferred.resolve(data);
+									});
+								}
+							});
+						} else {
+							sftp.fastPut(localFile, remoteFile, function (err) {
+								if (err) console.log(chalk.blue(file), chalk.red(err));
+								bar.tick();
+								if (++uploadedFilesQuantity === filesToUpload.length) deferred.resolve(data);
+							});
+						}
 					});
 				});
 			});
@@ -217,6 +235,32 @@ function uploadFiles (data) {
   	});
 
   	return deferred.promise;
+}
+
+function remoteMakeDirTree (sftp, dir, callback) {
+	var correctedDir = (dir.lastIndexOf("/") === dir.length - 1) ? dir.substring(0, dir.length - 1) : dir;
+	var currentDir = correctedDir.substring(correctedDir.lastIndexOf("/") + 1, correctedDir.length);
+	var parentPath = correctedDir.substring(0, correctedDir.lastIndexOf("/"));
+
+	sftp.stat(parentPath, function (error) {
+		if (error) {
+			if (error.code === 2) {
+				remoteMakeDirTree(sftp, parentPath, function (error) {					
+					sftp.mkdir(parentPath +"/"+ currentDir, function (error) {
+						if (error && error.code === 4) callback();
+						else if (error) callback(error);
+						else callback();
+					});
+				});
+			}
+		} else {
+			sftp.mkdir(parentPath +"/"+ currentDir, function (error) {
+				if (error && error.code === 4) callback();
+				else if (error) callback(error);
+				else callback();
+			});
+		}
+	});
 }
 
 function promiseCommand (cmd) {

@@ -1,15 +1,9 @@
 {
-	"servers": ["svrdesa", "svrnodejs1"],
-	"appDirInServer": "/opt/estadista",
-	"restartCommand": "systemctl restart estadista",
-	"outputFile": "./public/js/bundle.js",
+	"servers": ["svrdesa"],
+	"appDirInServer": "/opt/test",
 	"filesToUpload": [
-		"app/routes", 
-		"app/models",
-		"public", 
-		"config.js", 
-		"config_dev.json", 
-		"package.json", 
-		"server.js"
+		"folder1/", 
+		"folder2/folder3",
+		"file4"
 	]
 }
