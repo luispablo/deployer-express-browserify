@@ -36,15 +36,15 @@ The `deploy.json` file should look something like:
 {
 	"servers": ["svrname1", "svrname2"],
 	"appDirInServer": "/opt/yourawesomeapp",
-	"serviceName": "yourawesomeapp_service",
+	"restartCommand": "systemctl restart yourawesomeapp_service",
 	"entryFile": "./app/browserapp.js",
 	"outputFile": "./public/js/bundle.js",
 	"filesToUpload": [
-		"app/routes", 
+		"app/routes",
 		"app/models",
-		"public", 
-		"config.js", 
-		"package.json", 
+		"public",
+		"config.js",
+		"package.json",
 		"server.js"
 	]
 }
@@ -52,7 +52,7 @@ The `deploy.json` file should look something like:
 OK, what are we looking at here? Lets see:
 * **servers**: this is an array containing the names of the servers you may deploy to (ie: staging and production servers)
 * **appDirInServer**: this is the directory where your app will be located in the previously defined servers (by now it must be the same in all the servers defined)
-* **serviceName**: currently we support the `systemd` linux service, so with the name defined here the script will try to run `initctl <serviceName> restart` in the last step of the deploy process.
+* **restartCommand**: here you have to type the linux command to restart your app service.
 * **entryFile**: the root file of your client JS app (this was built with React, ES2015 and browserify in mind)
 * **outputFile**: the browserify output file.
 * **fileToUpload**: which files and folders, of the directory you're standing at, you want to upload to the defined servers.
