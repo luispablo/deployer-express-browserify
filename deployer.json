@@ -1,9 +1,0 @@
-{
-	"servers": ["svrdesa"],
-	"appDirInServer": "/opt/test",
-	"filesToUpload": [
-		"folder1/", 
-		"folder2/folder3",
-		"file4"
-	]
-}
