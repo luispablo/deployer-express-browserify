@@ -3,7 +3,7 @@
 var fs = require("fs");
 var chalk = require("chalk");
 var ssh2 = require("ssh2");
-var transpile = require("./transpile");
+var run = require("./run");
 var gatherInput = require("./gatherInput");
 var checks = require("./checks");
 var uploadFiles = require("./uploadFiles");
@@ -21,7 +21,7 @@ checks(NPM_CONF_FILENAME, DEPLOY_CONF_FILENAME)
     console.log("Connecting to server", input.serverName);
     sshConnection.on("ready", function () {
       console.log("SSH connection ready");
-      transpile(config.entryFile, config.outputFile)
+      run(config.entryFile, config.outputFile, config.buildCommand)
         .then(uploadFiles(sshConnection, config.filesToUpload, process.cwd(), config.appDirInServer))
         .then(promiseCommand(sshConnection, "cd "+ config.appDirInServer +" && npm install --production"))
         .then(promiseCommand(sshConnection, config.restartCommand))

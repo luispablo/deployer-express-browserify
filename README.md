@@ -39,6 +39,7 @@ The `deploy.json` file should look something like:
 	"restartCommand": "systemctl restart yourawesomeapp_service",
 	"entryFile": "./app/browserapp.js",
 	"outputFile": "./public/js/bundle.js",
+  "buildCommand": "npm run build-prod",
 	"filesToUpload": [
 		"app/routes",
 		"app/models",
@@ -53,8 +54,9 @@ OK, what are we looking at here? Lets see:
 * **servers**: this is an array containing the names of the servers you may deploy to (ie: staging and production servers)
 * **appDirInServer**: this is the directory where your app will be located in the previously defined servers (by now it must be the same in all the servers defined)
 * **restartCommand**: here you have to type the linux command to restart your app service.
-* **entryFile**: the root file of your client JS app (this was built with React, ES2015 and browserify in mind)
-* **outputFile**: the browserify output file.
+* **entryFile** (optional): the root file of your client JS app (this was built with React, ES2015 and browserify in mind)
+* **outputFile** (optional): the browserify output file.
+* **buildCommand** (optional): If you provide this command, it will ignore ```entryFile``` and ```outputFile``` and will use this command to build the JS bundle to deploy.
 * **fileToUpload**: which files and folders, of the directory you're standing at, you want to upload to the defined servers.
 
 ## Contributing
